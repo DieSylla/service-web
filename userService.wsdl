@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="UserService"
+    targetNamespace="http://example.com/userservice"
+    xmlns:tns="http://example.com/userservice"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+    
+    <types>
+        <xsd:schema targetNamespace="http://example.com/userservice">
+            <xsd:element name="generateToken">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="login" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="duration_hours" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="generateTokenResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="authenticateUser">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="login" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="token" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="authenticateUserResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="isAdmin" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="listUsers">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="listUsersResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="users" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="id" type="xsd:int"/>
+                                    <xsd:element name="login" type="xsd:string"/>
+                                    <xsd:element name="role" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="addUser">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                        <xsd:element name="login" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="role" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="addUserResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="success" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="updateUser">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                        <xsd:element name="user_id" type="xsd:int"/>
+                        <xsd:element name="login" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="role" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="updateUserResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="success" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="deleteUser">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                        <xsd:element name="user_id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="deleteUserResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="success" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="generateTokenRequest">
+        <part name="parameters" element="tns:generateToken"/>
+    </message>
+    <message name="generateTokenResponse">
+        <part name="parameters" element="tns:generateTokenResponse"/>
+    </message>
+    <message name="authenticateUserRequest">
+        <part name="parameters" element="tns:authenticateUser"/>
+    </message>
+    <message name="authenticateUserResponse">
+        <part name="parameters" element="tns:authenticateUserResponse"/>
+    </message>
+    <message name="listUsersRequest">
+        <part name="parameters" element="tns:listUsers"/>
+    </message>
+    <message name="listUsersResponse">
+        <part name="parameters" element="tns:listUsersResponse"/>
+    </message>
+    <message name="addUserRequest">
+        <part name="parameters" element="tns:addUser"/>
+    </message>
+    <message name="addUserResponse">
+        <part name="parameters" element="tns:addUserResponse"/>
+    </message>
+    <message name="updateUserRequest">
+        <part name="parameters" element="tns:updateUser"/>
+    </message>
+    <message name="updateUserResponse">
+        <part name="parameters" element="tns:updateUserResponse"/>
+    </message>
+    <message name="deleteUserRequest">
+        <part name="parameters" element="tns:deleteUser"/>
+    </message>
+    <message name="deleteUserResponse">
+        <part name="parameters" element="tns:deleteUserResponse"/>
+    </message>
+
+    <portType name="UserServicePortType">
+        <operation name="generateToken">
+            <input message="tns:generateTokenRequest"/>
+            <output message="tns:generateTokenResponse"/>
+        </operation>
+        <operation name="authenticateUser">
+            <input message="tns:authenticateUserRequest"/>
+            <output message="tns:authenticateUserResponse"/>
+        </operation>
+        <operation name="listUsers">
+            <input message="tns:listUsersRequest"/>
+            <output message="tns:listUsersResponse"/>
+        </operation>
+        <operation name="addUser">
+            <input message="tns:addUserRequest"/>
+            <output message="tns:addUserResponse"/>
+        </operation>
+        <operation name="updateUser">
+            <input message="tns:updateUserRequest"/> 
+            <output message="tns:updateUserResponse"/>
+        </operation>
+        <operation name="deleteUser">
+            <input message="tns:deleteUserRequest"/>
+            <output message="tns:deleteUserResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="UserServiceBinding" type="tns:UserServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="generateToken">
+            <soap:operation soapAction="http://example.com/userservice/generateToken"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="authenticateUser">
+            <soap:operation soapAction="http://example.com/userservice/authenticateUser"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="listUsers">
+            <soap:operation soapAction="http://example.com/userservice/listUsers"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="addUser">
+            <soap:operation soapAction="http://example.com/userservice/addUser"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="updateUser">
+            <soap:operation soapAction="http://example.com/userservice/updateUser"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="deleteUser">
+            <soap:operation soapAction="http://example.com/userservice/deleteUser"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <service name="UserService">
+        <port name="UserServicePort" binding="tns:UserServiceBinding">
+            <soap:address location="http://localhost:8000/userService"/>
+        </port>
+    </service>
+</definitions>
